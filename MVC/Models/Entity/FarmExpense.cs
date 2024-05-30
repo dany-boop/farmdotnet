@@ -9,7 +9,7 @@ namespace MVC.Models.Entity
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Farm_Id { get; set; }
-        [ForeignKey("Farm_Id")]
+        [ForeignKey("Id")]
 
         public Farm Farm { get; set; }
 

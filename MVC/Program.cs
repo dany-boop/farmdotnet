@@ -4,10 +4,13 @@ using MVC.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql("server=127.0.0.1;user=root;password=;database=farm",
+        new MySqlServerVersion(new Version(8, 0, 21)))
+);
 //var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer());
 
 var app = builder.Build();
 

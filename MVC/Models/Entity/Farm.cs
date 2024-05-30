@@ -11,7 +11,7 @@ namespace MVC.Models.Entity
         public string Code { get; set; } 
 
         public string Type_Id { get; set; }
-        [ForeignKey("Type_Id")]
+        [ForeignKey("Id")]
         public CattleType Type { get; set; }
 
         public Guid Investor_Id { get; set; }

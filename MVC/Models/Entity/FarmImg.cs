@@ -7,12 +7,12 @@ namespace MVC.Models.Entity
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid Farm_Id { get; set; }
-        [ForeignKey("Farm_Id")]
+        [ForeignKey("Id")]
 
         public Farm Farm { get; set; }
 
         public Guid Category_Id { get; set; }
-        [ForeignKey ("Category_Id")]
+        [ForeignKey ("Id")]
 
         public FarmExpenseCategory Category { get; set; }
 
