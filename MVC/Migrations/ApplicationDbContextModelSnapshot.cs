@@ -41,12 +41,22 @@ namespace MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CattleType");
+                    b.ToTable("CattleType", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f571f132-1320-40dc-96a0-85b326790ca0"),
+                            Is_active = true,
+                            Name = "Type1",
+                            Note = "Note for Type1"
+                        });
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.Farm", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Buy_Price")
@@ -68,34 +78,50 @@ namespace MVC.Migrations
                     b.Property<int>("Sell_Price")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<int>("Treament_Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type_Id")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Type_Id")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Investor_Id");
 
-                    b.ToTable("Farm");
+                    b.HasIndex("Type_Id");
+
+                    b.ToTable("Farm", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6f67877d-28c5-4a89-8083-609976b90509"),
+                            Buy_Price = 1000,
+                            Code = "FARM001",
+                            Female_Breeder = new Guid("30f5ebbb-5afb-4ac6-969b-972acc5a2dee"),
+                            Investor_Id = new Guid("706304b7-8b75-49f9-8bb7-c51d421cc08a"),
+                            Male_Breeder = new Guid("10cb5f9b-6ca0-4fc1-a081-bdca6edf4e5d"),
+                            Sell_Price = 1500,
+                            Status = 1,
+                            Treament_Price = 200,
+                            Type_Id = new Guid("f571f132-1320-40dc-96a0-85b326790ca0")
+                        });
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.FarmExpense", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Farm_Id")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("Farm_Id")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Img1")
                         .IsRequired()
@@ -123,7 +149,9 @@ namespace MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FarmExpense");
+                    b.HasIndex("Farm_Id");
+
+                    b.ToTable("FarmExpense", (string)null);
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.FarmExpenseCategory", b =>
@@ -141,12 +169,13 @@ namespace MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FarmExpenseCategory");
+                    b.ToTable("FarmExpenseCategory", (string)null);
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.FarmImg", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("Category_Id")
@@ -179,7 +208,11 @@ namespace MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FarmImg");
+                    b.HasIndex("Category_Id");
+
+                    b.HasIndex("Farm_Id");
+
+                    b.ToTable("FarmImg", (string)null);
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.User", b =>
@@ -213,20 +246,32 @@ namespace MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("706304b7-8b75-49f9-8bb7-c51d421cc08a"),
+                            Email = "john.doe@example.com",
+                            Is_active = true,
+                            Name = "John Doe",
+                            Password = "password123",
+                            Phone = "1234567890",
+                            Role = "investor"
+                        });
                 });
 
             modelBuilder.Entity("MVC.Models.Entity.Farm", b =>
                 {
-                    b.HasOne("MVC.Models.Entity.CattleType", "Type")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MVC.Models.Entity.User", "Investor")
                         .WithMany()
                         .HasForeignKey("Investor_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVC.Models.Entity.CattleType", "Type")
+                        .WithMany()
+                        .HasForeignKey("Type_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -239,7 +284,7 @@ namespace MVC.Migrations
                 {
                     b.HasOne("MVC.Models.Entity.Farm", "Farm")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Farm_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -248,15 +293,15 @@ namespace MVC.Migrations
 
             modelBuilder.Entity("MVC.Models.Entity.FarmImg", b =>
                 {
-                    b.HasOne("MVC.Models.Entity.Farm", "Farm")
+                    b.HasOne("MVC.Models.Entity.FarmExpenseCategory", "Category")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Category_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVC.Models.Entity.FarmExpenseCategory", "Category")
+                    b.HasOne("MVC.Models.Entity.Farm", "Farm")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Farm_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
