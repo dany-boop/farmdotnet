@@ -76,7 +76,9 @@ namespace MVC.Data
                     Id = Guid.NewGuid(),
                     Farm_Id = farmId,
                     Date = DateTime.Now,
-                    Total = 
+                    Total = '200',
+
+
                 }
                 );
         }
