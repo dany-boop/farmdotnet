@@ -53,10 +53,11 @@ namespace MVC.Data
             );
 
             // Seed data for Farm
+            var farmId = Guid.NewGuid();
             modelBuilder.Entity<Farm>().HasData(
                 new Farm
                 {
-                    Id = Guid.NewGuid(),
+                    Id = farmId,
                     Code = "FARM001",
                     Type_Id = cattleTypeId, // Set the correct CattleType Id
                     Investor_Id = userId,   // Set the correct User Id
@@ -68,6 +69,16 @@ namespace MVC.Data
                     Female_Breeder = Guid.NewGuid()
                 }
             );
+
+            modelBuilder.Entity<FarmExpense>().HasData(
+                new FarmExpense
+                {
+                    Id = Guid.NewGuid(),
+                    Farm_Id = farmId,
+                    Date = DateTime.Now,
+                    Total = 
+                }
+                );
         }
     }
 }
