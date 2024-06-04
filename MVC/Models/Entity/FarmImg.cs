@@ -18,11 +18,11 @@ namespace MVC.Models.Entity
 
         public int Total { get; set; }
 
-        public string Img1 { get; set; }
+        public string? Img1 { get; set; }
 
-        public string Img2 { get; set; }
+        public string? Img2 { get; set; }
 
-        public string Img3 { get; set; }
+        public string? Img3 { get; set; }
 
         public string Description { get; set; }
     }

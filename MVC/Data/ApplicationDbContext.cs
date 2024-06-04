@@ -75,12 +75,23 @@ namespace MVC.Data
                 {
                     Id = Guid.NewGuid(),
                     Farm_Id = farmId,
-                    Date = DateTime.Now,
-                    Total = '200',
-
-
+                    Date = DateTime.Now.AddDays(-10),
+                    Total = "1000",
+                    Img1 = null,
+                    Img2 = null,
+                    Img3 = null,
+                    Img4 = null,
+                    Img5 = null
                 }
                 );
+
+            var expenseCategoryId1 = Guid.NewGuid();
+            modelBuilder.Entity<FarmExpenseCategory>().HasData(new FarmExpenseCategory
+            {
+                Id = expenseCategoryId1,
+                Name = "Feed",
+                Is_active = true
+            });
         }
     }
 }
